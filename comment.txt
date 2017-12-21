@@ -1,0 +1,8 @@
+src/
+admin       系统后台页面
+api         后端接口
+assets      项目资源
+components  前台，系统后台通用组件
+homePage    前台页面
+router      路由
+utils       工具函数

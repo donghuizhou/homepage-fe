@@ -1,15 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import AdminLogin from 'admin/login/login'                        // admin login
+
+import HomePage from 'homePage/index/index'                       // homePage index
+
+import NotFound from 'components/404/404'                         // 404
+import FuckBrowser from 'components/fuckBrowser/fuckBrowser'      // fuckBrowser
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+    {path: '/admin', name: 'adminLogin', component: AdminLogin},
+    {path: '/homePage', name: 'homePage', component: HomePage},
+    {path: '/fuckBrowser', name: 'fuckBrowser', component: FuckBrowser},
+    {path: '/404', component: NotFound},
+    {path: '*', redirect: {path: '/404'}}
   ]
 })
