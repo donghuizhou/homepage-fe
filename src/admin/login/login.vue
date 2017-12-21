@@ -75,7 +75,7 @@
     background-color: #D5D6DA
     padding: 20px
     opacity: 0.7
-    animation: drop-in 0.5s
+    animation: drop-in 0.8s
     .login-title
       font-size: 35px
       text-align: center
@@ -104,7 +104,7 @@
       a
         display: block
         font-size: 18px
-        background-color: #277AFC 
+        background-color: #4D9EFC
         text-align: center
         line-height: 40px
         border-radius: 5px
