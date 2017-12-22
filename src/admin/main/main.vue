@@ -7,7 +7,8 @@
       <top @toggle="toggle"></top>
     </div>
     <div :class="[{'top-main-l': shrink}, 'main']">
-      <p v-for="i in 100" :key="i">{{i}}</p>
+      <p v-for="i in 100">{{i}}</p>
+      <router-view/>
     </div>
   </div>
 </template>
@@ -64,9 +65,10 @@
       height: $top-height
       border-bottom: 1px solid #e6e6e6
       transition: left 0.3s
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,.12), 0 0 3px 0 rgba(0,0,0,.04)
     .main
       position: absolute
-      top: $top-height + 1px
+      top: $top-height + 4px
       left: $sidebar-width
       right: 0
       bottom: 0

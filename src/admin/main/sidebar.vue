@@ -55,8 +55,8 @@
         border-radius: 200px
         transition: width 0.3s ease-in-out  
       .avatar-s
-        width: 50px
-        transition: width 0.3s ease-in-out  
+        width: 30px
+        transition: width 0.1s ease-in-out  
     .username
       color: #fff
 </style>
