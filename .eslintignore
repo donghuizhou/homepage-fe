@@ -2,4 +2,4 @@
 /config/
 /dist/
 /*.js
-src/router/index.js
+/src/router/index.js

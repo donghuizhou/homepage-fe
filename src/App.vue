@@ -17,4 +17,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+#app
+  position: absolute
+  top: 0
+  bottom: 0
+  width 100%
 </style>

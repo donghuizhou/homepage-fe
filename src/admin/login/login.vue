@@ -30,7 +30,7 @@
 
 <script type='text/ecmascript-6'>
   export default {
-    name: '',
+    name: 'login',
     data () {
       return {
         username: '',
@@ -42,6 +42,7 @@
       checkLogin () {},
       // 登录
       login () {
+        this.$router.push({name: 'main'})
       }
     },
     mounted () {
