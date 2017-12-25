@@ -1,0 +1,32 @@
+Users: {
+  "userId": String,
+  "userName": String,
+  "userPwd": String,
+  "nickName": String,
+  "lastLoginTime": Number,
+  "lastLoginIP": String,
+  "pageViews": Number
+}
+
+Articles: {
+  "articleId": String,
+  "author": String,
+  "title": String,
+  "articlePath": String,
+  "createTime": Number,
+  "tags": Array,
+  "category": String,
+  "readingAmounts": Number,
+  "comments": [
+    {
+      "critics": String,
+      "message": String,
+      "time: Number
+    }
+  ]
+}
+
+Category: {
+  "cateId": Srting,
+  "cateName": String
+}

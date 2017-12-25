@@ -5,27 +5,24 @@
       <div class="avatar-wrap">
         <img src="../../assets/imgs/avatar.jpg" :class="[{'avatar-s': shrink}, 'avatar']">
       </div>
-      <div class="username">admin</div>
+      <div class="username">{{userInfo.nickName}}</div>
     </div>
     <!-- menu -->
     <el-menu background-color="#344155" text-color="#fff" style="border: 0">
-      <el-menu-item index="1">
+      <el-menu-item index="1" @click="sidebarRoute('adminArticleList')">
         <i class="el-icon-menu"></i>
-        <span slot="title" v-if="!shrink">导航一</span>
+        <span slot="title" v-if="!shrink">文章列表</span>
       </el-menu-item>
-      <el-menu-item index="2">
+      <el-menu-item index="2" @click="sidebarRoute('adminPublish')">
         <i class="el-icon-menu"></i>
-        <span slot="title" v-if="!shrink">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3">
-        <i class="el-icon-setting"></i>
-        <span slot="title" v-if="!shrink">导航三</span>
+        <span slot="title" v-if="!shrink">文章发布</span>
       </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script type='text/ecmascript-6'>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'sidebar',
     props: ['shrink'],
@@ -33,7 +30,16 @@
       return {
       }
     },
+    computed: {
+      ...mapGetters([
+        'userInfo'
+      ])
+    },
     methods: {
+      // sidebar 点击
+      sidebarRoute (routeName) {
+        this.$router.push({name: routeName})
+      }
     },
     mounted () {
     }

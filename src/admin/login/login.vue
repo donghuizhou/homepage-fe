@@ -29,6 +29,9 @@
 </template>
 
 <script type='text/ecmascript-6'>
+  import { isLogin, userLogin } from '@/api/api.js'
+  import { mapMutations } from 'vuex'
+
   export default {
     name: 'login',
     data () {
@@ -39,13 +42,40 @@
     },
     methods: {
       // 是否登录
-      checkLogin () {},
+      checkLogin () {
+        isLogin()
+          .then(res => {
+            if (res.data.code === 200) {
+              this.$router.push({name: 'main'})
+            }
+          })
+      },
       // 登录
       login () {
-        this.$router.push({name: 'main'})
-      }
+        if (!this.username || !this.password) {
+          this.$message.error('账号或密码有误')
+          return
+        }
+        let data = {
+          username: this.username,
+          password: this.password
+        }
+        userLogin(data)
+          .then(res => {
+            if (res.data.code === 200) {
+              this.setUserInfo(res.data.result)
+              this.$router.push({name: 'main'})
+            } else {
+              this.$message.error('账号或密码有误')
+            }
+          })
+      },
+      ...mapMutations({
+        setUserInfo: 'SET_USERINFO'
+      })
     },
     mounted () {
+      this.checkLogin()
     }
   }
 </script>

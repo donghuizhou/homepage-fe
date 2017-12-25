@@ -7,7 +7,6 @@
       <top @toggle="toggle"></top>
     </div>
     <div :class="[{'top-main-l': shrink}, 'main']">
-      <p v-for="i in 100">{{i}}</p>
       <router-view/>
     </div>
   </div>
@@ -72,6 +71,7 @@
       left: $sidebar-width
       right: 0
       bottom: 0
+      padding: 15px
       background-color: #fff
       overflow-y: scroll
       -webkit-overflow-scrolling: touch
