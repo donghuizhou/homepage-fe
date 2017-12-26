@@ -1,0 +1,17 @@
+{
+  "articleId": '',
+  "author": String,
+  "title": String,
+  "articlePath": String,
+  "createTime": Number,
+  "tags": Array,
+  "category": String,
+  "readingAmounts": Number,
+  "comments": [
+    {
+      "critics": String,
+      "message": String,
+      "time: Number
+    }
+  ]
+}

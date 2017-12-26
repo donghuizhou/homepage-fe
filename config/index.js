@@ -13,6 +13,9 @@ module.exports = {
     proxyTable: {
       '/users': {
         target: 'http://192.168.31.121:3000'
+      },
+      '/articles': {
+        target: 'http://192.168.31.121:3000'
       }
     },
     // Various Dev Server settings

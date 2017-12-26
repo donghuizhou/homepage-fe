@@ -4,13 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
+import mavonEditor from 'mavon-editor'
 import store from './store'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/stylus/index.styl'
 import '@/assets/font-awesome-4.7.0/css/font-awesome.min.css'
+import 'mavon-editor/dist/css/index.css'
 
 Vue.use(ElementUI)
+Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
 
