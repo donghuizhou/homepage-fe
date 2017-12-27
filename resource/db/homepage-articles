@@ -1,17 +1,17 @@
-{
-  "articleId": '',
-  "author": String,
-  "title": String,
-  "articlePath": String,
-  "createTime": Number,
-  "tags": Array,
-  "category": String,
-  "readingAmounts": Number,
+{ 
+  "articleId": "20001",
+  "author": "周东晖",
+  "title": "hello world",
+  "articlePath": "/articles/text1514269095.txt",
+  "createTime": 1514364559,
+  "tags": ["javascript", "html"],
+  "category": 1,
+  "readingAmounts": 10,
   "comments": [
     {
-      "critics": String,
-      "message": String,
-      "time: Number
+      "critics": "小明",
+      "message": "写得好",
+      "time": 1514364559
     }
   ]
 }

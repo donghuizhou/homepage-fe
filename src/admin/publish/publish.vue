@@ -24,8 +24,9 @@
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
+          res = res.data
           // 将返回的url替换文本中的图片url
-          // this.$refs.mdRef.$img2Url(pos, res.data)
+          this.$refs.mdRef.$img2Url(pos, res.result.imgUrl)
         })
       }
     },
