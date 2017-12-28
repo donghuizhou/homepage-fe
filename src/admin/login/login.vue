@@ -66,7 +66,7 @@
               this.setUserInfo(res.data.result)
               this.$router.push({name: 'main'})
             } else {
-              this.$message.error('账号或密码有误')
+              this.$message.error(res.data.msg)
             }
           })
       },

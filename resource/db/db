@@ -15,15 +15,16 @@ Articles: {
   "articlePath": String,
   "createTime": Number,
   "tags": Array,
-  "category": String,
+  "category": Number,
   "readingAmounts": Number,
   "comments": [
     {
       "critics": String,
       "message": String,
-      "time: Number
+      "time": Number
     }
-  ]
+  ],
+  "status": Number
 }
 
 Category: {
