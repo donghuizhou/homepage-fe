@@ -43,12 +43,11 @@
     methods: {
       // 是否登录
       checkLogin () {
-        isLogin()
-          .then(res => {
-            if (res.data.code === 200) {
-              this.$router.push({name: 'main'})
-            }
-          })
+        isLogin().then(res => {
+          if (res.data.code === 200) {
+            this.$router.push({name: 'main'})
+          }
+        })
       },
       // 登录
       login () {
@@ -60,15 +59,14 @@
           username: this.username,
           password: this.password
         }
-        userLogin(data)
-          .then(res => {
-            if (res.data.code === 200) {
-              this.setUserInfo(res.data.result)
-              this.$router.push({name: 'main'})
-            } else {
-              this.$message.error(res.data.msg)
-            }
-          })
+        userLogin(data).then(res => {
+          if (res.data.code === 200) {
+            this.setUserInfo(res.data.result)
+            this.$router.push({name: 'main'})
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
       },
       ...mapMutations({
         setUserInfo: 'SET_USERINFO'
