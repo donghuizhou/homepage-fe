@@ -13,7 +13,7 @@
       <el-table-column align="center" prop="category" label="分类">
         <template slot-scope="scope">
           <span style="color:	#1E90FF" v-if="scope.row.category === 1">博客</span>
-          <span style="color: #808080" v-if="scope.row.category === 2">随笔</span>
+          <span style="color: #FF4500" v-if="scope.row.category === 2">随笔</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="标签">
@@ -28,7 +28,7 @@
       <el-table-column align="center" prop="readingAmounts" label="阅读数"></el-table-column>
       <el-table-column align="center" label="状态">
         <template slot-scope="scope">
-          <span style="color: #85ce61" v-if="scope.row.status === 1">已发布</span>
+          <span style="color: #66CD00" v-if="scope.row.status === 1">已发布</span>
           <span style="color: #F04E6E" v-if="scope.row.status === 0">未发布</span>
         </template>
       </el-table-column>
@@ -39,7 +39,7 @@
           <el-button size="mini" type="info">编辑</el-button>
           <el-button size="mini" type="warning" @click="changeStatus(scope.row)" v-if="scope.row.status === 1">下线</el-button>
           <el-button size="mini" type="success" @click="changeStatus(scope.row)" v-if="scope.row.status === 0">发布</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+          <el-button size="mini" type="danger" @click="delArticle(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -86,7 +86,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-  import { getArticles, getComments, changeStatus } from '@/api/api'
+  import { getArticles, getComments, changeStatus, delArticle } from '@/api/api'
   import { timeConvert } from '@/utils/utils'
 
   export default {
@@ -162,24 +162,50 @@
         this.commonTxt = row.status === 0 ? '是否发布该文章？' : row.status === 1 ? '是否下线该文章？' : ''
         this.commonVisible = true
       },
+      // 删除
+      delArticle (row) {
+        this.rowTmp = row
+        this.commonTitle = '删除'
+        this.commonTxt = '是否删除该篇文章？'
+        this.commonVisible = true
+      },
       // 通用 dialog 提交
       commonSubmit () {
-        let data = {
-          id: this.rowTmp._id,
-          status: this.rowTmp.status === 0 ? 1 : this.rowTmp.status === 1 ? 0 : ''
-        }
-        changeStatus(data).then(res => {
-          if (res.data.code === 200) {
-            this.$message({
-              message: res.data.msg,
-              type: 'success'
-            })
-            this.getTableData(this.currentPage)
-            this.commonVisible = false
-          } else {
-            this.$message.error(res.data.msg)
+        if (this.commonTitle === '发布' || this.commonTitle === '下线') {
+          let data = {
+            id: this.rowTmp._id,
+            status: this.rowTmp.status === 0 ? 1 : this.rowTmp.status === 1 ? 0 : ''
           }
-        })
+          changeStatus(data).then(res => {
+            if (res.data.code === 200) {
+              this.$message({
+                message: res.data.msg,
+                type: 'success'
+              })
+              this.getTableData(this.currentPage)
+              this.commonVisible = false
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+        }
+        if (this.commonTitle === '删除') {
+          let data = {
+            id: this.rowTmp._id
+          }
+          delArticle(data).then(res => {
+            if (res.data.code === 200) {
+              this.$message({
+                message: res.data.msg,
+                type: 'success'
+              })
+              this.getTableData(this.currentPage)
+              this.commonVisible = false
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+        }
       }
     },
     mounted () {
