@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 表格 -->
-    <el-table :data="resData.result" v-loading="tableLoading" border fit highlight-current-row style="width: 100%; color: #333">
+    <el-table :data="resData.result" v-loading="tableLoading" stripe fit style="width: 100%; color: #333">
       <el-table-column align="center" type="index" label="#"></el-table-column>
       <el-table-column align="center" label="时间" width="180px">
         <template slot-scope="scope">
@@ -19,7 +19,7 @@
       <el-table-column align="center" label="标签">
         <template slot-scope="scope">
           <el-tag v-for="(item, index) in scope.row.tags" 
-            :type="[null, 'success','info', 'warning', 'danger'][parseInt(Math.random() * 5)]" 
+            :type="[null, 'success', 'info', 'warning', 'danger'][parseInt(Math.random() * 5)]" 
             style="margin: 0 2px 0 0" 
             size="mini" 
             :key="index">{{item}}</el-tag>
