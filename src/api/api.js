@@ -16,3 +16,4 @@ export let getComments = params => axios.get('/articles/getComments', { params }
 export let changeStatus = params => axios.put('/articles/changeStatus', params)
 export let delArticle = params => axios.delete('/articles/delArticle', { params })
 export let getCategories = params => axios.get('/articles/getCategories', { params })
+export let createArticle = params => axios.post('/articles/createArticle', params)
