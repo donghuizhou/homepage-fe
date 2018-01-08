@@ -26,6 +26,7 @@
     </el-form>
     <!-- markdown -->
     <mavon-editor ref="mdRef" v-model="mdContent" @imgAdd="imgAdd" :toolbars="toolbars"></mavon-editor>
+    <!-- save btns -->
     <section style="margin-top: 20px">
       <el-button @click="handleSave('articleref', 0)" size="small">保存</el-button>
       <el-button @click="handleSave('articleref', 1)" type="primary" size="small">保存并发布</el-button>
@@ -75,8 +76,8 @@ export default {
         underline: true,        // 下划线
         strikethrough: true,    // 中划线
         mark: true,             // 标记
-        superscript: false,      // 上角标
-        subscript: false,        // 下角标
+        superscript: false,     // 上角标
+        subscript: false,       // 下角标
         quote: true,            // 引用
         ol: true,               // 有序列表
         ul: true,               // 无序列表
@@ -91,8 +92,8 @@ export default {
         undo: true,             // 上一步
         redo: true,             // 下一步
         trash: true,            // 清空
-        save: false,             // 保存（触发events中的save事件）
-        navigation: false,       // 导航目录
+        save: false,            // 保存（触发events中的save事件）
+        navigation: false,      // 导航目录
         alignleft: true,        // 左对齐
         aligncenter: true,      // 居中
         alignright: true,       // 右对齐
@@ -157,7 +158,7 @@ export default {
       let index = this.articleForm.tags.findIndex(val => val.name === tag.name)
       this.articleForm.tags.splice(index, 1)
     },
-    // 保存
+    // 保存/保存并发布
     handleSave (ref, type) {
       this.$refs[ref].validate(valid => {
         if (valid) {
@@ -175,13 +176,13 @@ export default {
       let data = {
         title: this.articleForm.title,
         author: this.articleForm.author,
-        tags: this.articleForm.tags,
+        tags: this.articleForm.tags.map(item => item.name),
         cate: this.articleForm.cate,
         mdContent: this.mdContent,
         status: this.saveType
       }
-      console.log(data)
-      return
+      // console.log(data)
+      // return
       createArticle(data).then(res => {
         res = res.data
         if (res.code === 200) {
@@ -193,11 +194,12 @@ export default {
           this.articleForm.title = ''
           this.articleForm.author = ''
           this.articleForm.createTag = ''
-          this.articleForm.tags = ''
+          this.articleForm.tags = []
           this.articleForm.cate = ''
           this.mdContent = ''
+          this.submitVisible = false
         } else {
-          this.$message.$error(res.msg)
+          this.$message.error(res.msg)
         }
       })
     }

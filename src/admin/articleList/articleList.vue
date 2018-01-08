@@ -53,7 +53,7 @@
     </el-pagination>
     <!-- 查看评论 -->
     <el-dialog :title="commentTitle" :visible.sync="commentVisible" width="50%">
-      <el-table :data="commentData.result" v-loading="commentLoading" border fit highlight-current-row style="width: 100%; color: #333">
+      <el-table :data="commentData.result" v-loading="commentLoading" fit highlight-current-row style="width: 100%; color: #333">
         <el-table-column type="index" label="#" align="center"></el-table-column>
         <el-table-column label="时间" align="center">
           <template slot-scope="scope">

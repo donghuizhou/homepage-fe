@@ -3,7 +3,7 @@
  */
 import axios from 'axios'
 /*
- * 登录
+ * 登录相关
  */
 export let isLogin = params => axios.get('/users/isLogin', { params })
 export let userLogin = (params) => axios.post('/users/login', params)
