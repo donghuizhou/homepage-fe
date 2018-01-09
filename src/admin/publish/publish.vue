@@ -25,7 +25,10 @@
       </el-form-item>
     </el-form>
     <!-- markdown -->
-    <mavon-editor ref="mdRef" v-model="mdContent" @imgAdd="imgAdd" :toolbars="toolbars"></mavon-editor>
+    <mavon-editor ref="mdRef" v-model="mdContent"
+      @imgAdd="imgAdd" 
+      :toolbars="toolbars"
+      style="box-shadow: 0 0px 3px rgba(0,0,0,0.157), 0 0px 3px rgba(0,0,0,0.227)"></mavon-editor>
     <!-- save btns -->
     <section style="margin-top: 20px">
       <el-button @click="handleSave('articleref', 0)" size="small">保存</el-button>
@@ -43,15 +46,14 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import axios from 'axios'
-import { getCategories, createArticle } from '../../api/api'
+import { getCategories, createArticle, uploadImg, baseUrl, previewArticle } from '../../api/api'
 
 export default {
   name: '',
   data () {
     return {
-      mdContent: '',
-      categories: [],
+      mdContent: '',           // mavon-editor值
+      categories: [],          // 分类
       articleForm: {
         title: '',
         author: '',
@@ -103,7 +105,8 @@ export default {
       submitTitle: '',
       submitVisible: false,
       submitTxt: '',
-      saveType: ''
+      saveType: '',
+      editId: ''                // 编辑
     }
   },
   methods: {
@@ -121,17 +124,16 @@ export default {
       // 将图片上传到服务器
       let formdata = new FormData()
       formdata.append('image', $file)
-      axios
-        .post('/articles/uploadImg', formdata, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then(res => {
-          res = res.data
-          // 将返回的url替换文本中的图片url
-          this.$refs.mdRef.$img2Url(pos, res.result.imgUrl)
-        })
+      let options = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      uploadImg(formdata, options).then(res => {
+        res = res.data
+        // 将返回的url替换文本中的图片url
+        this.$refs.mdRef.$img2Url(pos, baseUrl + res.result.imgUrl)
+      })
     },
     // 创建tag
     createTag () {
@@ -202,10 +204,25 @@ export default {
           this.$message.error(res.msg)
         }
       })
+    },
+    // 编辑 获取文章数据
+    getArticle (id) {
+      let data = {
+        id
+      }
+      previewArticle(data).then(res => {
+        res = res.data
+        if (res.code === 200) {
+        }
+      })
     }
   },
   mounted () {
     this.getCategories()
+    this.editId = this.$route.query.id
+    if (this.editId) {
+      this.getArticle(this.editId)
+    }
   }
 }
 </script>

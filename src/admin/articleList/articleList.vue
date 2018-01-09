@@ -34,9 +34,9 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="390px">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary">预览</el-button>
+          <el-button size="mini" type="primary" @click="previewArticle(scope.row)">预览</el-button>
           <el-button size="mini" @click="showComments(scope.row, 1)">查看评论</el-button>
-          <el-button size="mini" type="info">编辑</el-button>
+          <el-button size="mini" type="info" @click="editArticle(scope.row)">编辑</el-button>
           <el-button size="mini" type="warning" @click="changeStatus(scope.row)" v-if="scope.row.status === 1">下线</el-button>
           <el-button size="mini" type="success" @click="changeStatus(scope.row)" v-if="scope.row.status === 0">发布</el-button>
           <el-button size="mini" type="danger" @click="delArticle(scope.row)">删除</el-button>
@@ -63,6 +63,7 @@
         <el-table-column prop="critics" label="评论人" align="center"></el-table-column>
         <el-table-column prop="message" label="内容" align="center"></el-table-column>
       </el-table>
+      <!-- 评论的分页 -->
       <el-pagination background style="text-align: right"
         @current-change="commentsCurrentChange"
         :current-page.sync="commentCurrentPage"
@@ -71,7 +72,7 @@
         :total="commentData.count">
       </el-pagination>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="commentVisible = false" size="small">关 闭</el-button>
+        <el-button @click="commentVisible = false" type="primary" size="small">关 闭</el-button>
       </span>
     </el-dialog>
     <!-- 通用dialog -->
@@ -82,11 +83,22 @@
         <el-button size="small" type="primary" @click="commonSubmit">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 预览 -->
+    <el-dialog :title="previewTitle" :visible.sync="previewVisible" width="70%">
+      <mavon-editor ref="previewRef" v-model="previewCont"
+        :toolbarsFlag="toolbarsFlag"
+        :subfield="subfield"
+        :default_open="defaultOpen"
+        class="mavonEditor"></mavon-editor>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" type="primary" @click="previewVisible = false">关 闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script type='text/ecmascript-6'>
-  import { getArticles, getComments, changeStatus, delArticle } from '@/api/api'
+  import { getArticles, getComments, changeStatus, delArticle, previewArticle } from '@/api/api'
   import { timeConvert } from '@/utils/utils'
 
   export default {
@@ -97,16 +109,22 @@
         currentPage: 1,
         pageSize: 10,
         resData: {},
-        commentTitle: '',
+        commentTitle: '',                 // 评论
         commentVisible: false,
         commentData: {},
         commentLoading: false,
         commentCurrentPage: 1,
         commentPageSize: 10,
-        rowTmp: {},
-        commonTitle: '',
+        rowTmp: {},                       // 暂存row数据
+        commonTitle: '',                  // 通用dialog
         commonVisible: false,
-        commonTxt: ''
+        commonTxt: '',
+        previewTitle: '',                 // 预览
+        previewVisible: false,
+        previewCont: '',
+        toolbarsFlag: false,              // mavon-editor配置
+        subfield: false,
+        defaultOpen: 'preview'
       }
     },
     filters: {
@@ -206,6 +224,30 @@
             }
           })
         }
+      },
+      // 预览
+      previewArticle (row) {
+        this.previewTitle = '预览'
+        this.previewCont = ''
+        this.previewVisible = true
+        let data = {
+          id: row._id
+        }
+        previewArticle(data).then(res => {
+          res = res.data
+          if (res.code === 200) {
+            this.previewCont = res.result.content
+          }
+        })
+      },
+      // 编辑
+      editArticle (row) {
+        this.$router.push({
+          name: 'adminPublish',
+          query: {
+            id: row._id
+          }
+        })
       }
     },
     mounted () {
