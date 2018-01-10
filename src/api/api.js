@@ -20,6 +20,7 @@ export let delArticle = params => axios.delete('/articles/delArticle', { params 
 export let getCategories = params => axios.get('/articles/getCategories', { params })
 export let createArticle = params => axios.post('/articles/createArticle', params)
 export let previewArticle = params => axios.get('/articles/previewArticle', { params })
+export let editArticle = params => axios.put('/articles/editArticle', params)
 /**
  * 图片上传
  */

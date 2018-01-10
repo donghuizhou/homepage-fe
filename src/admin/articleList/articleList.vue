@@ -3,7 +3,7 @@
     <!-- 表格 -->
     <el-table :data="resData.result" v-loading="tableLoading" stripe fit style="width: 100%; color: #333">
       <el-table-column align="center" type="index" label="#"></el-table-column>
-      <el-table-column align="center" label="时间" width="180px">
+      <el-table-column align="center" label="创建时间" width="180px">
         <template slot-scope="scope">
           <span>{{scope.row.createTime | formatTime}}</span>
         </template>
@@ -30,6 +30,11 @@
         <template slot-scope="scope">
           <span style="color: #66CD00" v-if="scope.row.status === 1">已发布</span>
           <span style="color: #F04E6E" v-if="scope.row.status === 0">未发布</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="修改时间" width="180px">
+        <template slot-scope="scope">
+          <span>{{scope.row.updateTime | formatTime}}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="390px">

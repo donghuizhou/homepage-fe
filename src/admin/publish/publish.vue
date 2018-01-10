@@ -46,7 +46,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import { getCategories, createArticle, uploadImg, baseUrl, previewArticle } from '../../api/api'
+import { getCategories, createArticle, uploadImg, baseUrl, previewArticle, editArticle } from '../../api/api'
 
 export default {
   name: '',
@@ -95,7 +95,7 @@ export default {
         redo: true,             // 下一步
         trash: true,            // 清空
         save: false,            // 保存（触发events中的save事件）
-        navigation: false,      // 导航目录
+        navigation: true,      // 导航目录
         alignleft: true,        // 左对齐
         aligncenter: true,      // 居中
         alignright: true,       // 右对齐
@@ -183,9 +183,11 @@ export default {
         mdContent: this.mdContent,
         status: this.saveType
       }
-      // console.log(data)
-      // return
-      createArticle(data).then(res => {
+      let apiUrl = this.editId ? editArticle : createArticle
+      if (this.editId) {
+        data.id = this.editId
+      }
+      apiUrl(data).then(res => {
         res = res.data
         if (res.code === 200) {
           this.$message({
@@ -193,12 +195,14 @@ export default {
             type: 'success',
             duration: 1500
           })
-          this.articleForm.title = ''
-          this.articleForm.author = ''
-          this.articleForm.createTag = ''
-          this.articleForm.tags = []
-          this.articleForm.cate = ''
-          this.mdContent = ''
+          if (!this.editId) {
+            this.articleForm.title = ''
+            this.articleForm.author = ''
+            this.articleForm.createTag = ''
+            this.articleForm.tags = []
+            this.articleForm.cate = ''
+            this.mdContent = ''
+          }
           this.submitVisible = false
         } else {
           this.$message.error(res.msg)
@@ -213,6 +217,17 @@ export default {
       previewArticle(data).then(res => {
         res = res.data
         if (res.code === 200) {
+          let article = res.result.article
+          this.articleForm.title = article.title
+          this.articleForm.author = article.author
+          this.articleForm.tags = article.tags.map(item => {
+            return (item = {
+              name: item,
+              type: [null, 'success', 'info', 'warning', 'danger'][parseInt(Math.random() * 5)]
+            })
+          })
+          this.articleForm.cate = article.category
+          this.mdContent = res.result.content
         }
       })
     }
